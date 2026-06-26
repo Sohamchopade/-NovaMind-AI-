@@ -1,4 +1,5 @@
 import {useState} from "react";
+import logo from "./assets/blacklogo.png";
 import "./Sidebar.css";
 import{useContext} from"react";
 import {MyContext} from"./MyContext";
@@ -12,7 +13,7 @@ const{allThreads,setallThreads,currThreadId,setNewChat,setPrompt,setReply,setCur
 const getAllThreads=async()=>{
   try{
 
-    const response=await fetch("http://localhost:3000/api/thread");
+    const response=await  fetch(`${import.meta.env.VITE_API_URL}/api/thread`)
 const res=await response.json();
 const FilterData=res.map(thread=>({threadId:thread.threadId,title:thread.title}));
 console.log(FilterData);
@@ -39,7 +40,7 @@ const changeThread=async(newThreadId)=>{
 setCurrThreadId(newThreadId);
 
 try{
-const response=await fetch(`http://localhost:3000/api/thread/${newThreadId}`);
+const response=await  fetch(`${import.meta.env.VITE_API_URL}/api/thread/${newThreadId}`)
 const res=await response.json();
 console.log(res);
 setPrevChats(res);
@@ -54,7 +55,12 @@ setReply(null);
 
 const deleteThread=async(threadId)=>{
   try{
-const response=await fetch(`http://localhost:3000/api/thread/${threadId}`,{method:"DELETE"});
+ const response = await fetch(
+  `${import.meta.env.VITE_API_URL}/api/thread/${threadId}`,
+  {
+    method: "DELETE",
+  }
+);
 const res=await response.json();
 console.log(res);
 
@@ -71,7 +77,7 @@ console.log(err);
     return(
          <section className="sidebar">        
 <button onClick={createNewChat}>
-    <img src="src/assets/blacklogo.png" alt="gpt logo" className="logo"></img>
+     <img src={logo} alt="gpt logo" className="logo" />
      <span><i className="fa-solid fa-pen-to-square"></i></span>
 </button>
 
@@ -98,7 +104,7 @@ deleteThread(thread.threadId);
 
   {/* sign */}
   <div className="sign">
-<p>By ApnaCollege &hearts;</p>
+<p>By soham &hearts;</p>
   </div>
          </section>
     )
