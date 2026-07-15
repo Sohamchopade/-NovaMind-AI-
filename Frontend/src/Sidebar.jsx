@@ -118,13 +118,15 @@ export default function Sidebar() {
   return (
     <section className="sidebar">
 
-      <button onClick={createNewChat}>
-        <img src={logo} alt="gpt logo" className="logo" />
-        <span>
-          <i className="fa-solid fa-pen-to-square"></i>
-        </span>
-      </button>
+     <button className="newChatBtn" onClick={createNewChat}>
+    <img src={logo} alt="SigmaGPT" className="logo" />
 
+    <span className="newChatText">New Chat</span>
+
+</button>
+<br />
+
+<span className="chats">Chats</span>
       <ul className="history">
         {allThreads?.map((thread, idx) => (
           <li
@@ -151,11 +153,11 @@ export default function Sidebar() {
       </ul>
 
        
-
+<div class="op"> 
       <div className="sign">
         <p>By Soham &hearts;</p>
       </div>
-
+</div>
     </section>
   );
 }

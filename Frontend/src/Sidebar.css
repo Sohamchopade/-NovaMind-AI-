@@ -63,7 +63,8 @@ border-radius: 10px;
     margin:10px;
     font-size: 14px;
     text-align: center;
-    border-top: solid 0.25px rgba(255,255,255,0.05);
+    border-top: solid 0.25px rgba(255, 255, 255, 0.909);
+     width:100%;
 }
  .fa-trash {
   opacity: 0;
@@ -85,4 +86,42 @@ border-radius: 10px;
 background-color: rgba(180,180,180,0.05);
 border-radius: 10px;
 }
+ 
+.newChatBtn{
+    width:90%;
+    margin:15px auto;
+    padding:12px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#2f2f2f;
+    border:1px solid #444;
+    border-radius:12px;
+    color:white;
+    cursor:pointer;
+    transition:.3s ease;
+}
 
+.newChatBtn:hover{
+    background:#3a3a3a;
+    border-color:#fff;
+}
+
+.newChatBtn i{
+    font-size:16px;
+}
+
+.newChatText{
+    flex:1;
+    text-align:left;
+    margin-left:12px;
+    font-size:15px;
+    font-weight:500;
+}
+.chats{
+     margin:15px auto;
+     margin-left:12px;
+    font-size:15px;
+    font-style: italic;
+   
+}
