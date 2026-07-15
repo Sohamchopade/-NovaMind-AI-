@@ -1,122 +1,193 @@
-import express from"express";
-import Thread from"../models/Thread.js";
+import express from "express";
+import Thread from "../models/Thread.js";
 import getOpenAIAPIResponse from "../utils/openai.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
-const router=express.Router();
+const router = express.Router();
 
-//post route
-router.get("/test",async(req,res)=>{
-    try{
-const thread=new Thread({
-    threadId:"xyz",
-    title:"Testing New Thread"
-});
+// Test Route
+router.get("/test", async (req, res) => {
+    try {
+        const thread = new Thread({
+            threadId: "xyz",
+            title: "Testing New Thread",
+        });
 
-const response=await thread.save();
-res.send(response);
-    }catch (err){
-console.log(err);
-res.status(500).json({error:"failed to save in DB"})
+        const response = await thread.save();
+
+        res.send(response);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Failed to save in DB" });
     }
 });
 
-//get routes
-  router.get("/thread", async (req, res) => {
-  try {
-    const threads = await Thread.find({}).sort({ updatedAt: -1 });  
-    res.json(threads);
-  } catch (err) {
-    console.log("THREAD ERROR", err);
-    res.status(500).json({ error: err.message });
-  }
-});
+// Get all threads of logged-in user
+router.get("/thread", authMiddleware, async (req, res) => {
+    try {
 
- router.get("/thread/:threadId", async(req,res)=>{
-const {threadId}=req.params;
+        const threads = await Thread.find({
+            user: req.user.id
+        }).sort({ updatedAt: -1 });
 
-try{
+        res.json(threads);
 
-const thread=await Thread.findOne({threadId});
+    } catch (err) {
 
-if(!thread){
-return res.status(404).json({error:"Thread not Found"});
-}
+        console.log(err);
 
-const sortedMessages = thread.messages.sort(
-(a,b)=> new Date(a.createdAt) - new Date(b.createdAt)
-);
+        res.status(500).json({
+            error: err.message
+        });
 
-res.json(sortedMessages);
-
-}catch(err){
-console.log(err);
-res.status(500).json({error:"failed to fetch chat"});
-}
-});
-
-
-//delete route
-router.delete("/thread/:threadId",async(req,res)=>{
-    const{threadId}=req.params;
-    try{
-const deletedThread=await Thread.findOneAndDelete({threadId})
-
-if(!deletedThread){
-  return res.status(404).json({error:"Thread not Found"});
-}
-res.status(200).json({success:"Thread deleted sucessfully"})
-    }catch(err){
-console.log(err);
- res.status(500).json({error:"failed to delete thread"});
     }
 });
 
-//chat route
+// Get single thread
+router.get("/thread/:threadId", authMiddleware, async (req, res) => {
 
-router.post("/chat", async (req, res) => {
-      console.log("BODY RECEIVED:", req.body); 
+    const { threadId } = req.params;
+
+    try {
+
+        const thread = await Thread.findOne({
+            threadId,
+            user: req.user.id
+        });
+
+        if (!thread) {
+            return res.status(404).json({
+                error: "Thread not found"
+            });
+        }
+
+        const sortedMessages = thread.messages.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+
+        res.json(sortedMessages);
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            error: err.message
+        });
+
+    }
+
+});
+
+// Delete Thread
+router.delete("/thread/:threadId", authMiddleware, async (req, res) => {
+
+    const { threadId } = req.params;
+
+    try {
+
+        const deletedThread = await Thread.findOneAndDelete({
+            threadId,
+            user: req.user.id
+        });
+
+        if (!deletedThread) {
+            return res.status(404).json({
+                error: "Thread not found"
+            });
+        }
+
+        res.json({
+            message: "Thread deleted successfully"
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            error: err.message
+        });
+
+    }
+
+});
+
+// Chat Route
+router.post("/chat", authMiddleware, async (req, res) => {
+
     const { threadId, message } = req.body;
 
     if (!message) {
-        return res.status(400).json({ error: "message is required" });
+        return res.status(400).json({
+            error: "Message is required"
+        });
     }
 
     try {
+
         let thread;
 
         if (!threadId) {
-            // Create new thread if no threadId
+
             thread = new Thread({
-                threadId: new Date().getTime().toString(), // generate simple id
+                user: req.user.id,
+                threadId: Date.now().toString(),
                 title: message,
-                messages: [{ role: "user", content: message }],
+                messages: [
+                    {
+                        role: "user",
+                        content: message
+                    }
+                ]
             });
+
         } else {
-            thread = await Thread.findOne({ threadId });
+
+            thread = await Thread.findOne({
+                threadId,
+                user: req.user.id
+            });
 
             if (!thread) {
-                return res.status(404).json({ error: "Thread not found" });
+                return res.status(404).json({
+                    error: "Thread not found"
+                });
             }
 
-            thread.messages.push({ role: "user", content: message });
+            thread.messages.push({
+                role: "user",
+                content: message
+            });
+
         }
 
         const assistantReply = await getOpenAIAPIResponse(message);
 
-        thread.messages.push({ role: "assistant", content: assistantReply });
+        thread.messages.push({
+            role: "assistant",
+            content: assistantReply
+        });
+
         thread.updatedAt = new Date();
 
         await thread.save();
 
         res.json({
             reply: assistantReply,
-            threadId: thread.threadId,   
+            threadId: thread.threadId
         });
 
     } catch (err) {
-        console.log("CHAT ROUTE ERROR:", err);
-        res.status(500).json({ error: err.message });
+
+        console.log(err);
+
+        res.status(500).json({
+            error: err.message
+        });
+
     }
+
 });
-  
+
 export default router;
