@@ -126,7 +126,7 @@ export default function Sidebar() {
 </button>
 <br />
 
-<span className="chats">Chats</span>
+<span className="chat">Chats</span>
       <ul className="history">
         {allThreads?.map((thread, idx) => (
           <li
