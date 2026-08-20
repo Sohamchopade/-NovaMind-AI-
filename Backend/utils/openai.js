@@ -2,7 +2,7 @@ import "dotenv/config";
 import fetch from "node-fetch";
 const getOpenAIAPIResponse=async(message)=>{
     
-console.log("Loaded API Key:", process.env.GROQ_API_KEY);
+console.log("Groq API Key loaded:", !!process.env.GROQ_API_KEY);
 
 const options={
   method:"POST",
@@ -12,7 +12,7 @@ const options={
   },
 
   body: JSON.stringify({
-    model:"llama-3.3-70b-versatile",
+    model: "llama-3.1-8b-instant",
    messages:[{
   role:"user",
   content:message,
