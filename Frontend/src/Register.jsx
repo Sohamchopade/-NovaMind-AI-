@@ -18,7 +18,7 @@ e.preventDefault();
 try{
 
 await axios.post(
-"http://localhost:3000/api/auth/register",
+ "https://novamind-ai-1-355n.onrender.com/api/auth/register",
 {
 username,
 email,
