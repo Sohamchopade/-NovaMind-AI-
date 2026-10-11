@@ -6,7 +6,7 @@ A full-stack AI chat application built with React, Node.js, Express.js, and Mong
 
 ## Features
 
-- **User Authentication:** Register and log in securely using password hashing and JWT authentication.
+- **User Authentication:** Register and log in using password hashing and JWT authentication.
 - **AI Conversations:** Send prompts and receive AI-generated responses through the Groq API.
 - **Multiple Chat Threads:** Create and manage separate conversations.
 - **Persistent Chat History:** Store conversation messages in MongoDB and retrieve messages by thread.
@@ -37,23 +37,7 @@ A full-stack AI chat application built with React, Node.js, Express.js, and Mong
 - `Backend/utils/` — AI API integration
 - `Backend/server.js` — Express server and database connection
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js
-- npm
-- MongoDB database
-- Groq API key
-
-### 1. Clone the repository
-
-`git clone https://github.com/Sohamchopade/-NovaMind-AI-.git`
-
-Open the cloned project directory in your terminal.
-
- 
-### 4. Try NovaMind AI
+## Try NovaMind AI
 
 Register an account, log in, start a conversation, send a prompt, and explore the saved chat threads.
 
@@ -67,12 +51,6 @@ Register an account, log in, start a conversation, send a prompt, and explore th
 | GET | `/api/thread` | Retrieve chat threads |
 | GET | `/api/thread/:threadId` | Retrieve messages from a thread |
 | DELETE | `/api/thread/:threadId` | Delete a chat thread |
-
-The chat and thread endpoints require authentication where implemented.
-
-## Environment Variables
-
-Keep all database credentials, JWT secrets, and AI API keys in environment variables. Configure the corresponding variables in your deployment environment when hosting the backend.
 
 ## Author
 
