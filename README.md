@@ -52,44 +52,7 @@ A full-stack AI chat application built with React, Node.js, Express.js, and Mong
 
 Open the cloned project directory in your terminal.
 
-### 2. Configure the backend
-
-Navigate to the backend directory:
-
-`cd Backend`
-
-Install the dependencies:
-
-`npm install`
-
-Create a `.env` file inside the `Backend` directory containing:
-
-`MONGODB_URI=your_mongodb_connection_string`
-
-`JWT_SECRET=your_jwt_secret`
-
-`GROQ_API_KEY=your_groq_api_key`
-
-Replace the example values with your own credentials. Never commit your `.env` file or expose your API keys.
-
-Start the backend:
-
-`npm run dev`
-
-The backend runs on `http://localhost:3000`.
-
-### 3. Start the frontend
-
-Open a second terminal from the project root and run:
-
-`cd Frontend`
-
-`npm install`
-
-`npm run dev`
-
-Open the local URL displayed by Vite in your terminal.
-
+ 
 ### 4. Try NovaMind AI
 
 Register an account, log in, start a conversation, send a prompt, and explore the saved chat threads.
