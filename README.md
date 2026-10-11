@@ -114,4 +114,4 @@ Keep all database credentials, JWT secrets, and AI API keys in environment varia
 ## Author
 
 **Soham Chopade**
- [![GitHub](https://img.shields.io/badge/GitHub-View_Profile-181717?style=for-the-badge&logo=github)](https://github.com/Sohamchopade)
+ [![GitHub](https://img.shields.io/badge/View_Profile-181717?style=for-the-badge&logo=github)](https://github.com/Sohamchopade)
