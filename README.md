@@ -2,7 +2,7 @@
 
 A full-stack AI chat application built with React, Node.js, Express.js, and MongoDB. NovaMind AI provides user authentication, AI-powered conversations, and persistent chat threads through the Groq API.
 
-[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-Visit_App-2563EB?style=for-the-badge)](https://novamind-ai-2.onrender.com/)
+[![Live Demo](https://img.shields.io/badge/LIVE_DEMO-2563EB?style=for-the-badge)](https://novamind-ai-2.onrender.com/)
 
 ## Features
 
